@@ -2,8 +2,12 @@
 
 A **1 agent + multi-skill + 1 subagent** engineering plugin, adapted down from a 9-role reference
 design. `engineer` — invoked directly as **`@solo:engineer`** — is the single entry point and the
-only role that talks to the user; it carries 5 preloaded skills and can dispatch exactly one
-subagent, `deep-specialist`, for isolated deep-dive work.
+only role that talks to the user; it carries 5 preloaded skills, can dispatch exactly one subagent,
+`deep-specialist`, for isolated deep-dive work, and has a scoped `Skill` grant covering the
+`agent-skills` and `superpowers` plugins (invoked on demand, not preloaded) for cases those cover
+better than the 5 preloaded skills. Default skill set = the 5 preloaded skills + `agent-skills:*` +
+`superpowers:*`, nothing else — any other plugin's skill requires the user's explicit permission
+before `engineer` can use it.
 
 ## Roster
 
