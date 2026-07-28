@@ -1,6 +1,6 @@
 ---
 name: agent-handoff-protocol
-description: Structured handoff-packet format used whenever engineer (@solo:engineer) dispatches work to deep-specialist, and the format deep-specialist uses to report back. Replaces free-form delegation prose. Includes the "flag a gap, don't invent" rule.
+description: Structured handoff-packet format used whenever engineer (@solo:engineer) dispatches work to deep-specialist, and the format deep-specialist uses to report back. Replaces free-form delegation prose. Includes the "flag a gap, don't invent" rule. (builder is a separate, standalone entry-point agent and is not part of this handoff relationship — see agents/builder.md.)
 ---
 
 # Agent Handoff Protocol
@@ -41,3 +41,6 @@ handoff:
 - `deep-specialist` never talks to the user directly and never opens a second-order subagent — it
   only exchanges packets with `engineer`, which remains the single point of contact with the
   user.
+- `builder` is not part of this protocol at all — it's a separate entry-point agent the user
+  invokes directly, not something `engineer` dispatches or receives packets from. Don't compose a
+  handoff packet for it.

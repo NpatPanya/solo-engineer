@@ -13,7 +13,7 @@
     {
       "name": "solo",
       "source": "./",
-      "description": "1 agent (engineer) + 6 bundled skills + 1 subagent (deep-specialist). engineer is the sole entry point; plan-mode-protocol enforces modular sub-division, explicit priority, strict sequencing, and permission-gated incremental delivery for every plan.",
+      "description": "2 entry-point agents (engineer, builder) + 6 bundled skills + 1 subagent (deep-specialist). engineer embeds plan-mode-protocol to autoplan and self-execute, enforcing modular sub-division, explicit priority, strict sequencing, and a human-approval checkpoint before any execution starts. builder is a separate, human-invoked agent that only executes an already-approved plan, on a cheaper model; engineer and builder are never active on the same plan at the same time.",
       "keywords": ["engineering", "agent", "plan-mode", "single-agent", "subagent"]
     }
   ]

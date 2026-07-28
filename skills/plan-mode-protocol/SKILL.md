@@ -1,15 +1,27 @@
 ---
 name: plan-mode-protocol
-description: Governs how engineer (@solo:engineer) produces and executes any plan when plan mode is invoked. Enforces four mandatory rules — modular sub-division, explicit priority, strict sequencing, and incremental delivery gated on user approval. This is the canonical, always-preloaded ruleset for plan mode; it is never optional and never overridden by task-specific convenience.
+description: Governs how engineer (@solo:engineer) produces and executes any plan when plan mode is invoked. Enforces four mandatory rules — modular sub-division, explicit priority, strict sequencing, and incremental delivery gated on user approval — plus a mandatory human checkpoint immediately after the plan is saved to disk, before any execution starts (by engineer itself, or by a later, separate invocation of builder). This is the canonical, always-preloaded ruleset for plan mode on engineer; it is never optional and never overridden by task-specific convenience.
 ---
 
 # Plan Mode Protocol
 
-This skill activates the instant plan mode is entered (`ExitPlanMode`, a user request to "plan
-first," or any request whose scope requires a plan before execution). It applies regardless of
-task domain — feature work, refactors, research, migrations, anything. Four rules are mandatory,
-in order. None may be skipped, merged away, or reordered. If a task seems too small to need all
-four, it is still small enough to satisfy all four cheaply — do not treat size as an exemption.
+This skill is **embedded in `engineer`** — preloaded, always active the instant plan mode is
+entered (`ExitPlanMode`, a user request to "plan first," or any request whose scope requires a
+plan before execution). `engineer` autoplans and can then execute the resulting plan itself in the
+same session, using `safe-build`; it does not need a separate planning invocation or a different
+model to produce a plan.
+
+`builder` (`solo`'s other entry-point agent) never invokes this skill and never authors a plan —
+it only reads an already-saved plan's index/sub-plan files and executes them. When a plan is meant
+to hand off to `builder` for cheaper execution, engineer's job ends at Checkpoint 0 below: save the
+plan, get approval, and stop — the user then decides whether to keep going in this `engineer`
+session or switch to `builder` for the execution pass. `engineer` and `builder` are never both
+active on the same plan at the same time.
+
+It applies regardless of task domain — feature work, refactors, research, migrations, anything.
+Four rules are mandatory, in order, plus the mandatory post-planning checkpoint in Rule 4. None may
+be skipped, merged away, or reordered. If a task seems too small to need all four, it is still
+small enough to satisfy all four cheaply — do not treat size as an exemption.
 
 ## Rule 1 — Modular Sub-Division (decouple information)
 
@@ -73,7 +85,17 @@ execution order, not about topical independence (which Rule 1 already handles).
 Never execute the whole sequence in one uninterrupted pass, and never load every sub-plan's full
 context into the working context window at once.
 
-For each `Sub n.k` in turn:
+**Checkpoint 0 — after planning, before any execution.** The instant Rules 1-3 are satisfied and
+the index + sub-plan files are written to disk, stop. Do not continue straight into `Sub 1.1` on
+the strength of having produced a plan the user asked for — planning it is not the same
+authorization as executing it, even within the same `engineer` session. Present the saved plan (or
+its location) and get the user's explicit go-ahead before the first sub-plan starts. This is a
+human-in-the-loop gate specifically against hallucinated or subtly-wrong plans reaching execution
+unreviewed; it sits before Sub 1.1 in addition to, not instead of, the per-phase gates below. Once
+cleared, the user picks the execution path: `engineer` continues in place with `safe-build`, or the
+user separately invokes `builder` (never both, never automatically).
+
+For each `Sub n.k` in turn, once execution has begun:
 
 1. Load only that sub-plan's file (plus the index for orientation). Do not pre-load Sub n.k+1's
    detail.
@@ -118,3 +140,8 @@ between each per Rule 4.
   of topic is not the same axis as order of execution).
 - Running phase 2, 3, and 4 back-to-back because phase 1 went fine (violates Rule 4 — approval is
   per-phase, not earned once).
+- Continuing straight into `Sub 1.1` the moment the plan is written, because the user's original
+  request implicitly covered execution too (violates Checkpoint 0 — planning authorization and
+  execution authorization are separate approvals).
+- `engineer` and `builder` both acting on the same plan at the same time — they are separate entry
+  points the user alternates between deliberately, never concurrent collaborators on one plan.

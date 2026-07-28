@@ -1,12 +1,14 @@
 ---
 name: deep-specialist-brief
-description: Decision rule for when engineer (@solo:engineer) should delegate to deep-specialist versus handle work itself, and how to brief that dispatch. This is the only delegation path in the project — there is one subagent.
+description: Decision rule for when engineer (@solo:engineer) should delegate to deep-specialist versus handle work itself, and how to brief that dispatch. This is the only delegation path in the project — there is one subagent. (builder is a separate, standalone entry-point agent the user invokes directly, not something engineer dispatches — see agents/builder.md.)
 ---
 
 # Deep Specialist Brief
 
-`engineer` (`@solo:engineer`) is the only role that talks to the user. `deep-specialist` is the
-only subagent it can dispatch to. This skill governs that one decision point.
+`engineer` (`@solo:engineer`) is the only role that talks to the user in its own session.
+`deep-specialist` is the only subagent it can dispatch to. This skill governs that one decision
+point. (`builder` is `solo`'s other entry-point agent, invoked directly by the user — it has no
+dispatch relationship with `engineer` at all, so it's out of scope for this skill.)
 
 ## When to delegate
 

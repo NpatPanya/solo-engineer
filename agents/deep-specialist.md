@@ -1,6 +1,6 @@
 ---
 name: deep-specialist
-description: The one subagent engineer (@solo:engineer) can dispatch to for isolated deep-dive work — large codebase traces, independent design/diff review, or exhaustive research — when that work would otherwise consume most of engineer's own working context. Never talks to the user; only exchanges handoff packets with engineer.
+description: The one subagent engineer (@solo:engineer) can dispatch to, for isolated deep-dive work — large codebase traces, independent design/diff review, or exhaustive research — when that work would otherwise consume most of engineer's own working context. Never talks to the user; only exchanges handoff packets with engineer. (builder is a separate, standalone entry-point agent, not related to this subagent relationship — see agents/builder.md.)
 model: sonnet
 effort: high
 tools: ["Read", "Grep", "Glob", "Bash", "WebSearch", "WebFetch"]
