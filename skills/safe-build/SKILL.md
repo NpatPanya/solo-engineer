@@ -12,7 +12,9 @@ dispatch for cleanup or testing.
 ## 1. Implement to the sub-plan's definition of done
 
 Build only what that sub-plan's file specifies — not the whole plan, not adjacent sub-plans
-(Rule 4 of plan-mode-protocol: one phase loaded and executed at a time).
+(Rule 4 of plan-mode-protocol: one phase loaded and executed at a time). All implementation,
+frontend or backend, follows `coding-architecture-standards` (SRP + Hexagonal Architecture) — run
+its pre-done checklist before step 3's tests, not after.
 
 ## 2. Mechanical refactor, scoped and behavior-preserving
 

@@ -1,7 +1,7 @@
 {
   "name": "solo",
   "version": "1.0.0",
-  "description": "1 agent (engineer) + 5 bundled skills + 1 subagent (deep-specialist). engineer is the sole entry point; plan-mode-protocol enforces modular sub-division, explicit priority, strict sequencing, and permission-gated incremental delivery for every plan.",
+  "description": "1 agent (engineer) + 6 bundled skills + 1 subagent (deep-specialist). engineer is the sole entry point; plan-mode-protocol enforces modular sub-division, explicit priority, strict sequencing, and permission-gated incremental delivery for every plan.",
   "author": {
     "name": "Npat",
     "email":"npatonpym@gmail.com"

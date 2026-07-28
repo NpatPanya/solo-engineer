@@ -16,7 +16,10 @@ before any bug-fix or refactor.
    does this depend on, and what would break if it changed.
 3. **Classify blast radius** — LOW (isolated, one module, no external contract), MEDIUM (crosses
    module boundaries, no public API), HIGH (touches a public API, shared schema, auth, or data
-   migration).
+   migration). Use the layer boundaries from `coding-architecture-standards` (domain /
+   application / adapters) as the unit of "module" here — a change confined to one adapter is a
+   different blast radius than one that reaches into the domain/application core, even if both
+   touch the same number of files.
 4. **Write findings to a durable file**, not just packet prose, when the trace is non-trivial —
    downstream steps (a sub-plan's own file, per Rule 1 of plan-mode-protocol) read the file once
    instead of a paraphrase degrading through relays.
